@@ -6,17 +6,19 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
   styleUrls: ['./clickable-egg.component.scss']
 })
 export class ClickableEggComponent implements OnInit {
-  eggAmount: number = 10;
+  eggAmount: number = 0;
   eggAdder: number = 1;
   @Output() eggDeliverer = new EventEmitter<number>();
   constructor() { }
 
   ngOnInit(): void {
-    this.sendEggs()
+    this.eggAmount = Number(localStorage.getItem("eggsInStorage"));
+    this.sendEggsToHomePage()
   }
 
-  sendEggs() {
+  sendEggsToHomePage(){
     this.eggDeliverer.emit(this.eggAmount);
+    localStorage.setItem("eggsInStorage", String(this.eggAmount));
   }
 
   clickedEgg() {
