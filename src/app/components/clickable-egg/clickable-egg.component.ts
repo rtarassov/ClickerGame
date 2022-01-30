@@ -7,7 +7,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class ClickableEggComponent implements OnInit {
   eggAmount: number = 0;
-  eggAdder: number = 1;
+  eggMultiplier: number = 1;
   @Output() eggDeliverer = new EventEmitter<number>();
   constructor() { }
 
@@ -22,7 +22,7 @@ export class ClickableEggComponent implements OnInit {
   }
 
   clickedEgg() {
-    this.eggAmount += this.eggAdder;
+    this.eggAmount += this.eggMultiplier;
     console.log(this.eggAmount);
   };
 }
