@@ -1,0 +1,13 @@
+
+
+<section class="hero is-primary is-bold is-fullheight">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <app-clickable-egg class="is-inline-block" (eggDeliverer)="receiveEggs($event)"></app-clickable-egg>
+      <p class="title" style="color: black" >My eggs: {{ myEggs }}</p>
+    </div>
+  </div>
+</section>
+<div>
+  <h1>{{(player | async)?.name}}</h1>
+</div>
