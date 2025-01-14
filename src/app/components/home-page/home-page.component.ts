@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
 import {PlayerModel} from "../../model/PlayerModel";
 
@@ -21,15 +21,5 @@ export class HomePageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-
-    let token = localStorage.getItem("token");
-    let headers = new HttpHeaders().set("Token", token !== null ? token : "");
-    this.http.get<PlayerModel>('http://localhost:8080/player', {headers})
-      .subscribe(p => {
-        this.player.next(p)
-        console.log(p)
-      });
-
-  }
+  ngOnInit() {}
 }

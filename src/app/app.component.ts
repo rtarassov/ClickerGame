@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {PlayerModel} from "./model/PlayerModel";
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,6 @@ import {HttpClient} from "@angular/common/http";
 
 export class AppComponent {
   title = 'MyClickerGame';
-//localStorage
-  // If i do, load my data from backend with this token
-  // If I don't have a token, ask backend for a new token
 
 
   constructor(private http: HttpClient) {  }
@@ -22,12 +20,20 @@ export class AppComponent {
   }
 
   setToken(): void {
-    // TODO - "Token" should be a constant, declared somewhere once only
     if (!localStorage.getItem("token")) {
-      this.http.post<Token>('http://localhost:8080/token', {})
+      this.http.post<Token>('http://localhost:8080/player/token', {})
         .subscribe(token => {
         localStorage.setItem("token", token.value);
       })
+    } else {
+      let token = localStorage.getItem("token");
+      let headers = new HttpHeaders().set("token", token !== null ? token : "");
+      this.http.get<PlayerModel>('http://localhost:8080/player/token', {headers})
+        .subscribe(player => {
+          localStorage.setItem("eggsInStorage", player.eggsInStorage.toString())
+          localStorage.setItem("totalEggsProduced", player.totalEggsProduced.toString())
+          localStorage.setItem("eggsClicked", player.eggsClicked.toString())
+        })
     }
   }
 }

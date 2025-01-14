@@ -6,23 +6,25 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
   styleUrls: ['./clickable-egg.component.scss']
 })
 export class ClickableEggComponent implements OnInit {
-  eggAmount: number = 0;
+  eggAmount: number = Number(localStorage.getItem("eggAmount") ?? 0);
   eggMultiplier: number = 1;
   @Output() eggDeliverer = new EventEmitter<number>();
-  constructor() { }
 
   ngOnInit(): void {
     this.eggAmount = Number(localStorage.getItem("eggsInStorage"));
     this.sendEggsToHomePage()
   }
 
+  ngOnChanges(): void {
+    this.eggAmount = Number(localStorage.getItem("eggAmount"));
+  }
+
   sendEggsToHomePage(){
     this.eggDeliverer.emit(this.eggAmount);
-    localStorage.setItem("eggsInStorage", String(this.eggAmount));
+    localStorage.setItem("eggAmount", String(this.eggAmount));
   }
 
   clickedEgg() {
     this.eggAmount += this.eggMultiplier;
-    console.log(this.eggAmount);
-  };
+  }
 }
