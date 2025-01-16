@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
 import {PlayerModel} from "../../model/PlayerModel";
+import {LocalStorageService} from "../../local-storage.service";
 
 
 @Component({
@@ -10,16 +10,12 @@ import {PlayerModel} from "../../model/PlayerModel";
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
+  constructor(private localStorageService: LocalStorageService) {}
+
   player: BehaviorSubject<PlayerModel | null> = new BehaviorSubject<PlayerModel | null>(null);
   myEggs: number | undefined;
 
-  receiveEggs($event: number | undefined) {
-    this.myEggs = $event;
+  ngOnInit() {
+    this.myEggs = Number(this.localStorageService.getItem("eggAmount") || 0)
   }
-
-  constructor(private http: HttpClient) {
-
-  }
-
-  ngOnInit() {}
 }

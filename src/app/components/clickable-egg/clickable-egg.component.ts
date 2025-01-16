@@ -1,4 +1,5 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {LocalStorageService} from "../../local-storage.service";
 
 @Component({
   selector: 'app-clickable-egg',
@@ -6,25 +7,22 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
   styleUrls: ['./clickable-egg.component.scss']
 })
 export class ClickableEggComponent implements OnInit {
-  eggAmount: number = Number(localStorage.getItem("eggAmount") ?? 0);
+  constructor(private localStorageService: LocalStorageService) {}
+
+  eggAmount: number = Number(this.localStorageService.getItem("eggAmount") || 0);
   eggMultiplier: number = 1;
-  @Output() eggDeliverer = new EventEmitter<number>();
 
   ngOnInit(): void {
-    this.eggAmount = Number(localStorage.getItem("eggsInStorage"));
-    this.sendEggsToHomePage()
+    this.eggAmount = Number(this.localStorageService.getItem("eggsInStorage") || 0);
   }
 
   ngOnChanges(): void {
-    this.eggAmount = Number(localStorage.getItem("eggAmount"));
-  }
-
-  sendEggsToHomePage(){
-    this.eggDeliverer.emit(this.eggAmount);
-    localStorage.setItem("eggAmount", String(this.eggAmount));
+    this.eggAmount = Number(this.localStorageService.getItem("eggAmount") || 0);
   }
 
   clickedEgg() {
-    this.eggAmount += this.eggMultiplier;
+    let eggs = Number(this.localStorageService.getItem("eggAmount") || 0)
+    eggs += this.eggMultiplier;
+    this.localStorageService.setItem("eggAmount", eggs.toString())
   }
 }

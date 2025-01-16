@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {PlayerModel} from "../../model/PlayerModel";
+import {LocalStorageService} from "../../local-storage.service";
 
 @Component({
   selector: 'app-header',
@@ -9,14 +10,17 @@ import {PlayerModel} from "../../model/PlayerModel";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {  }
 
-  ngOnInit(): void {}
+  eggsInStorage: number | undefined;
+  ngOnInit(): void {
+    this.eggsInStorage = Number(this.localStorageService.getItem("eggsInStorage") || 0)
+  }
 
   sendEggsToStorage(): void {
-    let eggsInStorage = localStorage.getItem("eggAmount");
+    let eggsInStorage = this.localStorageService.getItem("eggAmount");
     let params = new HttpParams().set("amount", eggsInStorage !== null ? eggsInStorage: "0")
-    let token = localStorage.getItem("token");
+    let token = this.localStorageService.getItem("token");
     let headers = new HttpHeaders().set("token", token !== null ? token : "");
     const options = {
       headers: headers,
@@ -24,10 +28,10 @@ export class HeaderComponent implements OnInit {
     }
     this.http.put<PlayerModel>('http://localhost:8080/player/deliver', {}, options)
       .subscribe(player => {
-        localStorage.setItem("eggsInStorage", player.eggsInStorage.toString());
-        localStorage.setItem("eggAmount", "0");
+        this.localStorageService.setItem("eggsInStorage", player.eggsInStorage.toString());
+        this.localStorageService.setItem("eggAmount", "0");
       })
-    localStorage.setItem("eggsInStorage", "0")
+    this.localStorageService.setItem("eggsInStorage", "0")
   }
 
 }

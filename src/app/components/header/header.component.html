@@ -1,17 +1,16 @@
 <div class="navbar is-dark" id="navbar">
   <div class="navbar-brand">
     <a class="navbar-item">
-      <img class="navbar" src="../../../../assets/img/logo-nav.jpg">
+      <img class="navbar" src="../../../../assets/img/logo-nav.jpg" alt="Logo here">
     </a>
     <a class="navbar-item">
       <button class="button" (click)="[sendEggsToStorage()]">Send eggs to storage</button>
     </a>
-
-
   <div class="navbar-menu">
     <div class="navbar-start">
       <a class="navbar-item" routerLink="/">Home</a>
     </div>
   </div>
   </div>
+  <div>{{eggsInStorage}}</div>
 </div>
