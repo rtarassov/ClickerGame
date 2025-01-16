@@ -30,7 +30,7 @@ export class HomePageComponent implements OnInit {
   }
 
   private onStorageChange(event: StorageEvent): void {
-    if (event.key === 'eggAmount') {
+    if (event.key === 'eggAmount' || event.key === 'eggsInStorage') {
       this.updateEggs();
     }
   }

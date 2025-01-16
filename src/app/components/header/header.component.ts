@@ -30,6 +30,11 @@ export class HeaderComponent implements OnInit {
       .subscribe(player => {
         this.localStorageService.setItem("eggsInStorage", player.eggsInStorage.toString());
         this.localStorageService.setItem("eggAmount", "0");
+        window.dispatchEvent(new StorageEvent('storage', {
+          key: 'eggsInStorage',
+          newValue: player.eggsInStorage.toString(),
+          storageArea: localStorage
+        }));
       })
   }
 
