@@ -31,7 +31,6 @@ export class HeaderComponent implements OnInit {
         this.localStorageService.setItem("eggsInStorage", player.eggsInStorage.toString());
         this.localStorageService.setItem("eggAmount", "0");
       })
-    this.localStorageService.setItem("eggsInStorage", "0")
   }
 
 }

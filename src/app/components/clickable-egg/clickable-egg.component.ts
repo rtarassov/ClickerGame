@@ -24,5 +24,11 @@ export class ClickableEggComponent implements OnInit {
     let eggs = Number(this.localStorageService.getItem("eggAmount") || 0)
     eggs += this.eggMultiplier;
     this.localStorageService.setItem("eggAmount", eggs.toString())
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'eggAmount',
+      newValue: eggs.toString(),
+      oldValue: (eggs - this.eggMultiplier).toString(),
+      storageArea: localStorage
+    }));
   }
 }
